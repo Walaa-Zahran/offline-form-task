@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { error } from 'console';
 
 @Component({
   selector: 'app-forms',
@@ -26,9 +27,19 @@ export class FormsComponent implements AfterViewInit {
   onFileChange(event: any, controlName: string) {
     const file = event.target.files[0];
     console.log('Selected file:', file);
-
     this.uploadForm.controls[controlName].setValue(file);
-    console.log(this.uploadForm);
+    if (this.uploadForm.get('imageUpload')?.value) {
+      this.validateImage(file)
+        .then((valid) => {
+          if (valid) {
+            this.uploadForm.controls[controlName].setValue(file);
+            console.log(this.uploadForm);
+          } else {
+            alert('Image validation failed.');
+          }
+        })
+        .catch((error) => console.log('an error occured', error));
+    }
   }
   onSubmit() {
     const formData = new FormData();
@@ -98,5 +109,56 @@ export class FormsComponent implements AfterViewInit {
         resolve();
       }, 'image/png');
     });
+  }
+  validateImage(file: File): Promise<boolean> {
+    // Check file type
+    if (!this.isImageFileType(file.type)) {
+      alert('Invalid file');
+      return Promise.resolve(false);
+    }
+
+    // Check file size
+    if (file.size > 1024 * 1024 * 5) {
+      // 5MB limit
+      console.error('File size exceeds the limit of 5MB.');
+      return Promise.resolve(false);
+    }
+
+    // Check image dimensions
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const img = new Image();
+      img.onload = () => {
+        if (img.width > 1920 || img.height > 1080) {
+          console.error(
+            'Image dimensions exceed the maximum allowed size of 1920x1080 pixels.'
+          );
+          return Promise.resolve(false); // Return a resolved promise with false
+        }
+        console.log('Image validation passed.');
+        return Promise.resolve(true); // Return a resolved promise with true
+      };
+      img.onerror = () => {
+        console.error('Could not load the image.');
+        return Promise.resolve(false); // Return a resolved promise with false
+      };
+      img.src = event.target?.result as string;
+    };
+    reader.readAsDataURL(file);
+
+    return new Promise<boolean>((resolve, reject) => {
+      reader.onloadend = () => {
+        resolve(true); // Resolve the promise with true if the file was loaded successfully
+      };
+      reader.onerror = () => {
+        reject(false); // Reject the promise with false if there was an error reading the file
+      };
+    });
+  }
+
+  isImageFileType(type: string): boolean {
+    // List of MIME types for common image formats
+    const imageTypes = ['image/jpeg', 'image/png', 'image/gif'];
+    return imageTypes.includes(type);
   }
 }
