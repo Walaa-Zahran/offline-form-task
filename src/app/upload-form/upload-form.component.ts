@@ -31,7 +31,7 @@ export class UploadFormComponent {
     formData.append('textInput', this.uploadForm.get('textInput')?.value);
     formData.append('imageUpload', this.uploadForm.get('imageUpload')?.value);
     formData.append('voiceUpload', this.uploadForm.get('voiceUpload')?.value);
-
+    console.log(formData);
     // Define an observer object
     const observer = {
       next: (res: any) => console.log(res),
@@ -40,6 +40,6 @@ export class UploadFormComponent {
     };
 
     // Use the observer object in the subscribe method
-    this.http.post('/your-backend-endpoint', formData).subscribe(observer);
+    // this.http.post('/your-backend-endpoint', formData).subscribe(observer);
   }
 }

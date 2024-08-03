@@ -1,24 +1,56 @@
-<form [formGroup]="uploadForm" (ngSubmit)="onSubmit()">
-  <label for="textInput">Text Input:</label>
-  <input type="text" formControlName="textInput" /><br /><br />
+<div class="container">
+  <h2 class="my-4">Upload Form</h2>
+  <form
+    [formGroup]="uploadForm"
+    (ngSubmit)="onSubmit()"
+    class="needs-validation"
+  >
+    <div class="mb-3">
+      <label for="textInput" class="form-label">Text Input:</label>
+      <input
+        type="text"
+        class="form-control"
+        id="textInput"
+        formControlName="textInput"
+        required
+      />
+    </div>
 
-  <label for="imageUpload">Image Upload:</label>
+    <br /><br />
+    <div class="mb-3">
+      <label for="imageUpload" class="form-label">Image Upload:</label>
 
-  <input
-    type="file"
-    (change)="onFileChange($event, 'imageUpload')"
-    accept="image/*"
-  />
-  <br /><br />
+      <input
+        type="file"
+        (change)="onFileChange($event, 'imageUpload')"
+        accept="image/*"
+        class="form-control"
+        id="imageUpload"
+      />
+    </div>
 
-  <label for="voiceUpload">Voice Upload:</label>
+    <br /><br />
+    <div class="mb-3">
+      <label for="voiceUpload" class="form-label">Voice Upload:</label>
 
-  <input
-    type="file"
-    (change)="onFileChange($event, 'voiceUpload')"
-    accept="audio/*"
-  />
-  <br /><br />
+      <input
+        type="file"
+        class="form-control"
+        id="voiceUpload"
+        (change)="onFileChange($event, 'voiceUpload')"
+        accept="audio/*"
+        required
+      />
+    </div>
 
-  <button type="submit">Submit</button>
-</form>
+    <br /><br />
+
+    <button
+      class="btn btn-primary"
+      type="submit"
+      [disabled]="uploadForm.invalid"
+    >
+      Submit Form
+    </button>
+  </form>
+</div>
