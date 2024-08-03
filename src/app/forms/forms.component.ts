@@ -16,7 +16,7 @@ export class FormsComponent implements AfterViewInit {
 
   ngOnInit(): void {
     this.uploadForm = this.fb.group({
-      textInput: ['', Validators.required],
+      textInput: ['', Validators.required, Validators.maxLength(100)],
       imageUpload: [null, Validators.required],
       voiceUpload: [null, Validators.required],
     });
