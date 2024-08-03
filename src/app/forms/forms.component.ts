@@ -1,17 +1,20 @@
 import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { error } from 'console';
 
 @Component({
   selector: 'app-forms',
   templateUrl: './forms.component.html',
   styleUrl: './forms.component.scss',
 })
-export class FormsComponent implements AfterViewInit {
+export class FormsComponent {
   uploadForm!: FormGroup;
   @ViewChild('cameraElement') cameraElement!: ElementRef;
   hide!: boolean;
+  show!: boolean;
+  mediaRecorder!: MediaRecorder;
+  recordedChunks: BlobPart[] = [];
+  isRecording = false;
   constructor(private fb: FormBuilder, private http: HttpClient) {}
 
   ngOnInit(): void {
@@ -21,9 +24,7 @@ export class FormsComponent implements AfterViewInit {
       voiceUpload: [null, Validators.required],
     });
   }
-  ngAfterViewInit() {
-    this.startCamera();
-  }
+
   onFileChange(event: any, controlName: string) {
     const file = event.target.files[0];
     console.log('Selected file:', file);
@@ -56,7 +57,7 @@ export class FormsComponent implements AfterViewInit {
     // Use the observer object in the subscribe method
     // this.http.post('/your-backend-endpoint', formData).subscribe(observer);
   }
-
+  //Images
   startCamera() {
     if (this.cameraElement && typeof window !== 'undefined') {
       navigator.mediaDevices
@@ -160,5 +161,38 @@ export class FormsComponent implements AfterViewInit {
     // List of MIME types for common image formats
     const imageTypes = ['image/jpeg', 'image/png', 'image/gif'];
     return imageTypes.includes(type);
+  }
+  //Voice
+
+  async startRecording() {
+    try {
+      this.show = true;
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      this.mediaRecorder = new MediaRecorder(stream);
+
+      this.recordedChunks.length = 0; // Clear previous recordings
+
+      this.mediaRecorder.ondataavailable = (event) => {
+        this.recordedChunks.push(event.data);
+      };
+
+      this.mediaRecorder.start();
+      this.isRecording = true;
+    } catch (error) {
+      console.error('Error accessing microphone:', error);
+    }
+  }
+
+  stopRecording() {
+    if (!this.mediaRecorder) return;
+
+    this.mediaRecorder.stop();
+    this.mediaRecorder.onstop = () => {
+      const blob = new Blob(this.recordedChunks, { type: 'audio/wav' });
+      const audioUrl = URL.createObjectURL(blob);
+      console.log('Recording stopped:', audioUrl);
+      this.isRecording = false;
+      this.uploadForm.controls['voiceUpload'].setValue(audioUrl);
+    };
   }
 }

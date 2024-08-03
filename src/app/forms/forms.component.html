@@ -45,6 +45,7 @@
       <label for="voiceUpload" class="form-label">Voice Upload:</label>
 
       <input
+        *ngIf="!show"
         type="file"
         class="form-control"
         id="voiceUpload"
@@ -53,7 +54,24 @@
         required
       />
     </div>
-
+    <br /><br />
+    <div class="container" style="display: flex; justify-content: space-around">
+      <button
+        (click)="startRecording()"
+        class="btn btn-warning"
+        [disabled]="isRecording"
+      >
+        Start Recording
+      </button>
+      <button
+        (click)="stopRecording()"
+        class="btn btn-warning"
+        [disabled]="!isRecording"
+      >
+        Stop Recording
+      </button>
+    </div>
+    <div *ngIf="isRecording">Recording...</div>
     <br /><br />
 
     <button
