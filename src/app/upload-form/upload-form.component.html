@@ -1,0 +1,24 @@
+<form [formGroup]="uploadForm" (ngSubmit)="onSubmit()">
+  <label for="textInput">Text Input:</label>
+  <input type="text" formControlName="textInput" /><br /><br />
+
+  <label for="imageUpload">Image Upload:</label>
+
+  <input
+    type="file"
+    (change)="onFileChange($event, 'imageUpload')"
+    accept="image/*"
+  />
+  <br /><br />
+
+  <label for="voiceUpload">Voice Upload:</label>
+
+  <input
+    type="file"
+    (change)="onFileChange($event, 'voiceUpload')"
+    accept="audio/*"
+  />
+  <br /><br />
+
+  <button type="submit">Submit</button>
+</form>
