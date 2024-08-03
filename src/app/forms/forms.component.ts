@@ -104,7 +104,6 @@ export class FormsComponent {
           type: 'image/png',
         });
 
-        // Update the form control with the captured image file
         this.uploadForm.controls['imageUpload'].setValue(file);
 
         resolve();
