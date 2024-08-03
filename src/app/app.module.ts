@@ -7,22 +7,21 @@ import {
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { provideHttpClient } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
-import { UploadFormComponent } from './upload-form/upload-form.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { FormsModule } from './forms/forms.module';
 
 @NgModule({
-  declarations: [AppComponent, UploadFormComponent],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ReactiveFormsModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: !isDevMode(),
       // Register the ServiceWorker as soon as the application is stable
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000',
     }),
+    FormsModule,
   ],
 
   providers: [provideClientHydration(), provideHttpClient()],

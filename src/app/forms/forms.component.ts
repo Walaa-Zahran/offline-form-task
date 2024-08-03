@@ -3,11 +3,11 @@ import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-upload-form',
-  templateUrl: './upload-form.component.html',
-  styleUrl: './upload-form.component.scss',
+  selector: 'app-forms',
+  templateUrl: './forms.component.html',
+  styleUrl: './forms.component.scss',
 })
-export class UploadFormComponent {
+export class FormsComponent {
   uploadForm!: FormGroup;
 
   constructor(private fb: FormBuilder, private http: HttpClient) {}
