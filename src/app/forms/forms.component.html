@@ -18,9 +18,20 @@
 
     <br /><br />
     <div class="mb-3">
-      <label for="imageUpload" class="form-label">Image Upload:</label>
+      <label for="imageUpload" class="form-label"
+        >Upload image <span class="text-danger fw-bold">OR</span> Capture Your
+        Photo:</label
+      >
 
+      <div>
+        <video #cameraElement autoplay></video>
+        <button class="btn btn-success" (click)="startCamera()">
+          Capture Image
+        </button>
+      </div>
+      <br /><br />
       <input
+        *ngIf="!hide"
         type="file"
         (change)="onFileChange($event, 'imageUpload')"
         accept="image/*"
