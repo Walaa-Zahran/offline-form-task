@@ -9,7 +9,7 @@ import { SwUpdate } from '@angular/service-worker';
 export class AppComponent {
   title = 'offline-form';
   constructor(private swUpdate: SwUpdate) {
-    swUpdate.versionUpdates.subscribe((evt) => {
+    swUpdate.versionUpdates.subscribe((evt: any) => {
       switch (evt.type) {
         case 'VERSION_DETECTED':
           console.log(`Downloading new app version: ${evt.version.hash}`);

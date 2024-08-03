@@ -7,7 +7,9 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:offline-form": "node dist/offline-form/server/server.mjs"
+    "dev:ssr": "ng run offline-form:serve-ssr",
+    "serve:ssr": "node dist/offline-form/server/main.js",
+    "build:ssr": "ng build  && ng run offline-form:server"
   },
   "private": true,
   "dependencies": {
@@ -22,6 +24,7 @@
     "@angular/router": "^18.1.0",
     "@angular/service-worker": "^18.1.0",
     "@angular/ssr": "^18.1.3",
+    "@nguniversal/express-engine": "^7.0.1",
     "bootstrap": "^5.3.3",
     "express": "^4.18.2",
     "rxjs": "~7.8.0",

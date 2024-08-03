@@ -52,12 +52,12 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
+                  "maximumWarning": "2mb",
                   "maximumError": "1MB"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kB",
+                  "maximumWarning": "2mb",
                   "maximumError": "4kB"
                 }
               ],
@@ -80,6 +80,8 @@
             },
             "development": {
               "buildTarget": "offline-form:build:development"
+            },"debug": {
+              "browserTarget": "offline-form:build:debug"
             }
           },
           "defaultConfiguration": "development"

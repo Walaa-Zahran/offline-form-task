@@ -23,7 +23,15 @@
         Photo:</label
       >
 
-      <div>
+      <div
+        style="
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
+          flex-direction: column;
+        "
+      >
         <video #cameraElement autoplay></video>
         <button class="btn btn-success" (click)="startCamera()">
           Capture Image
